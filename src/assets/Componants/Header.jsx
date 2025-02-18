@@ -1,4 +1,4 @@
- import { Link } from "react-router";
+ import { Link, NavLink } from "react-router";
 const Header = () => {
     return (
         <header className="text-gray-600 body-font">
@@ -19,10 +19,11 @@ const Header = () => {
             <span className="ml-3 text-xl">Tailblocks</span>
           </a>
           <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            <Link to="/" className="mr-5 hover:text-gray-900">Home</Link>
-            <Link to="about" className="mr-5 hover:text-gray-900">About</Link>
-            <Link to="blog" className="mr-5 hover:text-gray-900">Blog</Link>
-            <Link to="contact" className="mr-5 hover:text-gray-900">Contact</Link>
+            <NavLink to="/" className={({isActive})=> isActive ? "mr-5 text-blue-700 font-bold" : "mr-5 hover:text-gray-900" }>Home</NavLink>
+            <NavLink to="about" className={({isActive})=> isActive ? "mr-5 text-blue-700 font-bold" : "mr-5 hover:text-gray-900" }>About</NavLink>
+            <NavLink to="blog" className={({isActive})=> isActive ? "mr-5 text-blue-700 font-bold" : "mr-5 hover:text-gray-900" }>Blog</NavLink>
+            <NavLink to={"products"} className={({isActive})=> isActive ? "mr-5 text-blue-700 font-bold" : "mr-5 hover:text-gray-900" } >Products</NavLink>
+            <NavLink to="contact" className={({isActive})=> isActive ? "mr-5 text-blue-700 font-bold" : "mr-5 hover:text-gray-900" }>Contact</NavLink>
           </nav>
           <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
             Button
