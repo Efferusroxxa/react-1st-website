@@ -1,5 +1,6 @@
- import { Link, NavLink } from "react-router";
-const Header = () => {
+ import { Icon } from "@iconify/react/dist/iconify.js";
+import { Link, NavLink } from "react-router";
+const Header = ({handleCartModalOpen}) => {
     return (
         <header className="text-gray-600 body-font">
         <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -25,7 +26,8 @@ const Header = () => {
             <NavLink to={"products"} className={({isActive})=> isActive ? "mr-5 text-blue-700 font-bold" : "mr-5 hover:text-gray-900" } >Products</NavLink>
             <NavLink to="contact" className={({isActive})=> isActive ? "mr-5 text-blue-700 font-bold" : "mr-5 hover:text-gray-900" }>Contact</NavLink>
           </nav>
-          <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+         <div>
+         <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
             Button
             <svg
               fill="none"
@@ -39,6 +41,10 @@ const Header = () => {
               <path d="M5 12h14M12 5l7 7-7 7"></path>
             </svg>
           </button>
+          <button onClick={handleCartModalOpen} className="p-5 border text-2xl">
+            <Icon icon={"vaadin:cart"}></Icon>
+          </button>
+         </div>
         </div>
       </header>
     );
