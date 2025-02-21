@@ -1,47 +1,68 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
-import React from "react";
+import React, { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router";
+import { ThemeContext } from "../../context/ThemeContext";
 
 // const Product = (props) => {
 
 const Product = (props) => {
+  const {handleCartModalOpen , fetchExistingCartList} = 
+  useContext(ThemeContext);
   const { image, category, title, price, id } = props.product;
 
   const handleAddToCart = () => {
+    // Trying to ready a product
     const addToCartProduct = {
       name: title,
-      price: price,
-      id: id,
-      image: image,
+      price,
+      id,
+      image,
       qty: 1,
-      total: 1* price,
+      total: 1 * price,
     };
+
+    // Existing product list
     const existingProduct = localStorage.getItem("cart");
+    // existing product parse
     const parsedProduct = JSON.parse(existingProduct);
 
     // console.log(addToCartProduct)
     // console.log(parsedProduct)
+    // Our click product is in the existing product list
     const isInCart =
       parsedProduct && parsedProduct.length > 0
         ? parsedProduct?.find((it) => it.id === id)
         : undefined;
     // console.log(isInCart);
     if (isInCart === undefined) {
+      // isInCart === undefined mane eita cart item e nai
       if (parsedProduct && parsedProduct.length > 0) {
         const newCart = [...parsedProduct, addToCartProduct];
         // console.log(newCart);
         const stringifyProduct = JSON.stringify(newCart);
         localStorage.setItem("cart", stringifyProduct);
+        toast.success(`The product has been added to cart ${title}`, {
+          duration: 5000,
+        });
+        handleCartModalOpen()
+        fetchExistingCartList();
       } else {
+        // add new cart item
         const stringifyProduct = JSON.stringify([addToCartProduct]);
         localStorage.setItem("cart", stringifyProduct);
+        toast.success(`The product has been added to cart ${title}`, {
+          duration: 5000,
+        });
+        handleCartModalOpen();
+        fetchExistingCartList();
       }
+    }else{
+      toast.error(`the product has been already in cart`,{duration:5000});
     }
-    // console.log(addToCartProduct)
-    // const stringifyProduct = JSON.stringify([addToCartProduct]);
-    // console.log(stringifyProduct)
-    console.log(parsedProduct);
-    // localStorage.setItem("cart", stringifyProduct);
+    
+    // console.log(parsedProduct);
+    
   };
 
   return (

@@ -1,6 +1,10 @@
  import { Icon } from "@iconify/react/dist/iconify.js";
+import { useContext } from "react";
 import { Link, NavLink } from "react-router";
-const Header = ({handleCartModalOpen}) => {
+import { ThemeContext } from "../../context/ThemeContext";
+const Header = () => {
+const {cartItems,handleCartModalOpen} = useContext(ThemeContext);
+
     return (
         <header className="text-gray-600 body-font">
         <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -43,6 +47,7 @@ const Header = ({handleCartModalOpen}) => {
           </button>
           <button onClick={handleCartModalOpen} className="p-5 border text-2xl">
             <Icon icon={"vaadin:cart"}></Icon>
+            {cartItems?.length}
           </button>
          </div>
         </div>

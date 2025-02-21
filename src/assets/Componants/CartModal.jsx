@@ -1,50 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
 
-const CartModal = ({handleCartModalClose , isCartModalOpen}) => {
-  const [cartItems, setCartItems] = useState([]);
-  useEffect(() => {
-    const parsedProduct = JSON.parse(localStorage.getItem("cart"));
-    // console.log(parsed Product)
-    setCartItems(parsedProduct);
-  }, []);
+const CartModal = () => {
+const {handleCartModalClose , isCartModalOpen , cartItems , setCartItems , } = 
+useContext(ThemeContext);
 
-  //   console.log(cartItems);
+  const handleMinus = (id) => {
+    console.log(id);
+    if (cartItems && cartItems.length > 0) {
+      const filteredCart = cartItems.find((it) => it.id == id);
+      console.log(filteredCart);
+      if (filteredCart.qty > 1) {
+        const newQty = filteredCart.qty - 1;
+        const newPrice = newQty * filteredCart.price;
+        filteredCart.total = newPrice;
+        filteredCart.qty = newQty;
+        const filterItem = cartItems.filter((it) => it.id !== id);
+        //  console.log(filterItem);
+        const newCartItem = [...filterItem, filteredCart];
+        setCartItems(newCartItem);
+        localStorage.setItem("cart", JSON.stringify(newCartItem));
+        // console.log(newQty, newPrice);
+      }
+    }
+  };
 
- const handleMinus = (id)=>{
- console.log(id)
- if (cartItems && cartItems.length > 0) { 
-  const filteredCart = cartItems.find((it) => it.id == id); 
-  console.log(filteredCart); 
-  if (filteredCart.qty > 1) { 
-  const newQty = filteredCart.qty -1; 
-  const newPrice = newQty * filteredCart.price; 
-  filteredCart.total = newPrice;
-  filteredCart.qty = newQty;
- const filterItem =cartItems.filter(it=> it.id !==id);
- //  console.log(filterItem);
- const newCartItem = [...filterItem, filteredCart];
- setCartItems(newCartItem);
- localStorage.setItem("cart", JSON.stringify(newCartItem));
-  // console.log(newQty, newPrice); 
-  } 
-  }
- };
-
- const handlePlus = (id)=>{
- if (cartItems && cartItems.length > 0) { 
-  const filteredCart = cartItems.find((it) => it.id == id); 
-  const newQty = filteredCart.qty +1; 
-  const newPrice = newQty*filteredCart.price; 
-  // console.log(newQty, newPrice);
-  filteredCart.total = newPrice;
-  filteredCart.qty = newQty;
- const filterItem =cartItems.filter(it=> it.id !==id);
-//  console.log(filterItem);
- const newCartItem = [...filterItem, filteredCart];
- setCartItems(newCartItem);
- localStorage.setItem("cart", JSON.stringify(newCartItem));
- }
- };
+  const handlePlus = (id) => {
+    if (cartItems && cartItems.length > 0) {
+      const filteredCart = cartItems.find((it) => it.id == id);
+      const newQty = filteredCart.qty + 1;
+      const newPrice = newQty * filteredCart.price;
+      // console.log(newQty, newPrice);
+      filteredCart.total = newPrice;
+      filteredCart.qty = newQty;
+      const filterItem = cartItems.filter((it) => it.id !== id);
+      //  console.log(filterItem);
+      const newCartItem = [...filterItem, filteredCart];
+      setCartItems(newCartItem);
+      localStorage.setItem("cart", JSON.stringify(newCartItem));
+    }
+  };
 
   return (
     <div
@@ -70,18 +65,29 @@ const CartModal = ({handleCartModalClose , isCartModalOpen}) => {
                 <h3>{it.total} BDT</h3>
               </div>
               <div className="flex items-center justify-center gap-3">
-                <button onClick={()=>handleMinus(it.id)} className="bg-white border text-2x1 p-4 cursor-pointer">
+                <button
+                  onClick={() => handleMinus(it.id)}
+                  className="bg-white border text-2x1 p-4 cursor-pointer"
+                >
                   -
                 </button>
                 <h3>{it.qty}</h3>
-                <button onClick={()=>handlePlus(it.id)} className="bg-white border text-2x1 p-4 cursor-pointer">
+                <button
+                  onClick={() => handlePlus(it.id)}
+                  className="bg-white border text-2x1 p-4 cursor-pointer"
+                >
                   +
                 </button>
               </div>
             </div>
           );
         })}
-        <button onClick={handleCartModalClose} className="w-full p-5 bg-white border cursor-pointer">Close</button>
+      <button
+        onClick={handleCartModalClose}
+        className="w-full p-5 bg-white border cursor-pointer"
+      >
+        Close
+      </button>
     </div>
   );
 };

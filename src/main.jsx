@@ -9,9 +9,11 @@ import Contact from "./pages/Contact.jsx";
 import Layout from "./layout/Layout.jsx";
 import Products from "./pages/Products.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
+import ThemeComponant from "./context/ThemeContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <ThemeComponant>
     <BrowserRouter>
       {/* Dhaka
     <Routes>
@@ -37,5 +39,6 @@ createRoot(document.getElementById("root")).render(
 
       {/* <App /> */}
     </BrowserRouter>
+    </ThemeComponant>
   </StrictMode>
 );
